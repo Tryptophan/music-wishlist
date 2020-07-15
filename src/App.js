@@ -1,7 +1,7 @@
 // Packages
 import React, { Component } from "react";
 import axios from "axios";
-import { Table } from "react-bootstrap";
+import { Card, Button, Container, Col, Row } from "react-bootstrap";
 
 // CSS
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -25,76 +25,66 @@ class App extends Component {
       let albums = response.map(album => {
         album.id = i++;
         album.checked = false;
+        album.cover = "https://media0.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif";
         return album;
       });
       this.setState({
         albums: albums
-      });
+      }, this.getCoverArt);
     } catch (error) {
       console.log(error);
     }
   }
 
   render() {
-
     const albums = this.state.albums.map(album => {
-      const {Artist, Album, Year} = album;
+      const { Artist, Album, Year, id, cover } = album;
       return (
-        <tr key={album.id}>
-          <td><input
-                type="checkbox"
-                checked={this.state.allChecked || album.checked}
-                onChange={() => this.onOneChecked(album.id)}
-                /></td>
-          <td>{Artist}</td>
-          <td>{Album}</td>
-          <td>{Year}</td>
-        </tr>
+        <Col md="3">
+          <Card key={id} className="AlbumCard">
+            {/* Get album art from backend */}
+            <Card.Img variant="top" src={cover} />
+            <Card.Body>
+              <Card.Title>{Album}</Card.Title>
+              <Card.Text>{Artist} • {Year}</Card.Text>
+              <Button variant="primary">Already Own</Button>
+            </Card.Body>
+          </Card>
+        </Col>
       );
     });
 
     return (
       <div className="App">
-        <Table striped bordered hover>
-          <thead className="TableHeader">
-            <tr>
-              <th><input
-                    type="checkbox"
-                    checked={this.state.allChecked}
-                    onChange={this.onAllChecked}/> Already Own</th>
-              <th>Artist</th>
-              <th>Album</th>
-              <th>Year</th>
-            </tr>
-          </thead>
-          <tbody>
+        <Container fluid={true}>
+          <Row>
             {albums}
-          </tbody>
-        </Table>
+          </Row>
+        </Container>
       </div>
     );
   }
 
-  onAllChecked = () => {
-    this.setState({
-      allChecked: !this.state.allChecked
-    });
-  }
-
-  onOneChecked = (id) => {
-    for (let i = 0; i < this.state.albums.length; i++) {
-      if (this.state.albums[i].id === id) {
-        let newAlbums = this.state.albums;
-        newAlbums[i].checked = !this.state.albums[i].checked;
-        this.setState({
-          albums: newAlbums
-        });
-      }
+  getCoverArt = async () => {
+    for (let album of this.state.albums) {
+      const { Artist, Album } = album;
+      const response = await axios.get(`${process.env.REACT_APP_API_SERVER_URL}/cover?artist=${Artist}&album=${Album}`);
+      const albums = this.state.albums.map(newAlbum => {
+        if (newAlbum.id === album.id) {
+          newAlbum.cover = response.data.cover;
+        }
+        return newAlbum;
+      });
+      this.setState({
+        albums: albums
+      }, () => {
+        console.log(this.state.albums);
+      });
     }
   }
 
   // TODO:
-  deleteAlbums = () => {
+  deleteAlbum = () => {
   }
 }
 

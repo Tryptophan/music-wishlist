@@ -1,5 +1,7 @@
 const express = require("express");
+const bodyParser = require('body-parser');
 const mysql = require("mysql");
+const albumArt = require("album-art");
 require("dotenv").config();
 
 const app = express();
@@ -21,6 +23,9 @@ app.use((req, res, next) => {
   next();
 });
 
+app.use(bodyParser.json());
+
+// Get all wanted albums
 app.get("/wanted", (request, response) => {
   connection.query(`select * from ${process.env.SQL_WANT_TABLE}`, (error, result) => {
     if (error) throw error;
@@ -28,7 +33,17 @@ app.get("/wanted", (request, response) => {
   });
 });
 
-// TODO:
+// Get cover art for album
+app.get("/cover", async (request, response) => {
+  const artist = request.query.artist;
+  const album = request.query.album;
+
+  const cover = await albumArt(artist, { album: album, size: "medium" });
+
+  response.json({ cover: cover });
+});
+
+// TODO: Delete album
 // app.delete("/remove", (res, req) => {
 //   res.send("Hello world!");
 // });

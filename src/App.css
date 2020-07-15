@@ -1,8 +1,32 @@
 .App {
-
+  background-image: url("./cd_music.jpg");
+  background-repeat: no-repeat;
+  background-position: top;
+  background-attachment: fixed;
+  padding: 20px
 }
 
-.App .FixedTableHeader {
-  /* position: fixed;
-  width: 100%; */
+.App .AlbumCard {
+  display: inline-block;
+  overflow: hidden;
+  margin-bottom: 40px;
+}
+
+.App .AlbumCard .card-body {
+  height: 180px;
+}
+
+.App .AlbumCard img {
+  width: 350px;
+  height: 350px;
+}
+
+.App .AlbumCard .card-body {
+  width: 350px;
+  word-wrap: break-word;
+}
+
+.App .AlbumCard button {
+  position: absolute;
+  bottom: 20px;
 }
