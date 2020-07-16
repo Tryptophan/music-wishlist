@@ -43,10 +43,18 @@ app.get("/cover", async (request, response) => {
   response.json({ cover: cover });
 });
 
-// TODO: Delete album
-// app.delete("/remove", (res, req) => {
-//   res.send("Hello world!");
-// });
+// Delete albums
+app.delete("/delete", async (request, response) => {
+  const albums = request.body.albums
+    .map(album => mysql.escape(album))
+    .join(",");
+  const query = `delete from ${process.env.SQL_WANT_TABLE} where Album in (${albums})`;
+
+  connection.query(query, (error) => {
+    if (error) throw error;
+    response.sendStatus(204);
+  });
+});
 
 app.listen(port, () => {
   console.log(`Backend server listening at http://localhost:${port}.`);

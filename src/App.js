@@ -52,7 +52,7 @@ class App extends Component {
               <Card.Title>{Album}</Card.Title>
               <Card.Text>{Artist} • {Year}</Card.Text>
             </Card.Body>
-            <input type="checkbox" checked={checked} />
+            <input type="checkbox" readOnly checked={checked} />
           </Card>
         </Col>
       );
@@ -62,7 +62,7 @@ class App extends Component {
       <div className="App">
         <div className="FixedHeader">
           <h2>Michael's Music Wishlist</h2>
-          <Button variant="danger">Delete Selected</Button>
+          <Button variant="danger" onClick={this.deleteAlbums}>Delete Selected</Button>
         </div>
         <Container fluid={true}>
           <Row>
@@ -88,21 +88,45 @@ class App extends Component {
   getCoverArt = async () => {
     for (let album of this.state.albums) {
       const { Artist, Album } = album;
-      const response = await axios.get(`${process.env.REACT_APP_API_SERVER_URL}/cover?artist=${Artist}&album=${Album}`);
-      const albums = this.state.albums.map(newAlbum => {
-        if (newAlbum.id === album.id) {
-          newAlbum.cover = response.data.cover;
-        }
-        return newAlbum;
-      });
-      this.setState({
-        albums: albums
-      });
+      try {
+        const response = await axios.get(`${process.env.REACT_APP_API_SERVER_URL}/cover?artist=${Artist}&album=${Album}`);
+        const albums = this.state.albums.map(newAlbum => {
+          if (newAlbum.id === album.id) {
+            newAlbum.cover = response.data.cover;
+          }
+          return newAlbum;
+        });
+        this.setState({
+          albums: albums
+        });
+      } catch (error) {
+        console.log(error);
+      }
     }
   }
 
-  // TODO:
-  deleteAlbum = () => {
+  deleteAlbums = async () => {
+    let deleted = [];
+    let kept = [];
+    for (let album of this.state.albums) {
+      if (album.checked) {
+        deleted.push(album.Album);
+      } else {
+        kept.push(album);
+      }
+    }
+    console.log(deleted);
+    // Send request
+    await axios.delete(`${process.env.REACT_APP_API_SERVER_URL}/delete`, {
+      data: {
+        albums: deleted
+      }
+    });
+
+    // Remove locally
+    this.setState({
+      albums: kept
+    });
   }
 }
 
