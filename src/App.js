@@ -7,6 +7,10 @@ import { Card, Button, Container, Col, Row } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 
+// Images
+import NoArt from "./no_art.jpg";
+import Loading from "./loading.gif";
+
 class App extends Component {
 
   constructor() {
@@ -25,7 +29,7 @@ class App extends Component {
       let albums = response.map(album => {
         album.id = i++;
         album.checked = false;
-        album.cover = "https://media0.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif";
+        album.cover = Loading;
         return album;
       });
       this.setState({
@@ -38,17 +42,17 @@ class App extends Component {
 
   render() {
     const albums = this.state.albums.map(album => {
-      const { Artist, Album, Year, id, cover } = album;
+      const { Artist, Album, Year, id, cover, checked } = album;
       return (
-        <Col md="3">
-          <Card key={id} className="AlbumCard">
+        <Col lg="3" md="3" sm="4" xs="4" className="column">
+          <Card key={id} className="AlbumCard" onClick={() => this.onSelectAlbum(id)}>
             {/* Get album art from backend */}
-            <Card.Img variant="top" src={cover} />
+            <Card.Img variant="top" src={cover.length ? cover : NoArt} />
             <Card.Body>
               <Card.Title>{Album}</Card.Title>
               <Card.Text>{Artist} • {Year}</Card.Text>
-              <Button variant="primary">Already Own</Button>
             </Card.Body>
+            <input type="checkbox" checked={checked} />
           </Card>
         </Col>
       );
@@ -56,6 +60,10 @@ class App extends Component {
 
     return (
       <div className="App">
+        <div className="FixedHeader">
+          <h2>Michael's Music Wishlist</h2>
+          <Button variant="danger">Delete Selected</Button>
+        </div>
         <Container fluid={true}>
           <Row>
             {albums}
@@ -63,6 +71,18 @@ class App extends Component {
         </Container>
       </div>
     );
+  }
+
+  onSelectAlbum = (id) => {
+    for (let i in this.state.albums) {
+      if (this.state.albums[i].id === id) {
+        let newAlbums = this.state.albums;
+        newAlbums[i].checked = !this.state.albums[i].checked;
+        this.setState({
+          albums: newAlbums
+        });
+      }
+    }
   }
 
   getCoverArt = async () => {
@@ -77,8 +97,6 @@ class App extends Component {
       });
       this.setState({
         albums: albums
-      }, () => {
-        console.log(this.state.albums);
       });
     }
   }

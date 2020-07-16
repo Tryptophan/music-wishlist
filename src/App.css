@@ -1,15 +1,43 @@
 .App {
-  background-image: url("./cd_music.jpg");
   background-repeat: no-repeat;
   background-position: top;
   background-attachment: fixed;
-  padding: 20px
+}
+
+.App .FixedHeader {
+  position: fixed;
+  background-color: white;
+  width: 100%;
+  z-index: 999;
+  top: 0px;
+  left: 0px;
+  padding: 2%;
+  height: 60px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.App .container-fluid {
+  margin-top: 80px;
+}
+
+.App .column {
+  display: flex;
 }
 
 .App .AlbumCard {
   display: inline-block;
   overflow: hidden;
-  margin-bottom: 40px;
+  margin: 0 auto 40px auto;
+  align-self: center;
+}
+
+.App .AlbumCard input {
+  position: absolute;
+  top: 10px;
+  right: 10px;
 }
 
 .App .AlbumCard .card-body {
@@ -23,10 +51,95 @@
 
 .App .AlbumCard .card-body {
   width: 350px;
+  font-size: 1em;
   word-wrap: break-word;
 }
 
 .App .AlbumCard button {
   position: absolute;
   bottom: 20px;
+}
+
+.App .card-title {
+  font-size: 1.2em;
+}
+
+@media (max-width: 1560px) {
+  .App .AlbumCard img {
+    width: 250px;
+    height: 250px;
+  }
+  
+  .App .AlbumCard .card-body {
+    width: 250px;
+  }
+
+}
+
+@media (max-width: 1200px) {
+  .App .AlbumCard img {
+    width: 200px;
+    height: 200px;
+  }
+
+  .App .card-title {
+    font-size: 18px;
+  }
+
+  .App .AlbumCard .card-body {
+    width: 200px;
+    height: 120px;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 1050px) {
+  .App .AlbumCard img {
+    width: 150px;
+    height: 150px;
+  }
+
+  .App .card-title {
+    font-size: 12px;
+  }
+
+  .App .AlbumCard .card-body {
+    width: 150px;
+    height: 100px;
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 780px) {
+  .FixedHeader h2 {
+    font-size: 24px;
+    line-height: 24px;
+  }
+
+  .App {
+    padding: 5px;
+  }
+  .App .AlbumCard img {
+    width: 80px;
+    height: 80px;
+  }
+
+  .App .card-title {
+    font-size: 8px;
+  }
+
+  .App .AlbumCard .card-body {
+    width: 80px;
+    height: 60px;
+    padding: 5px;
+    font-size: 6px;
+  }
+
+  .App .FixedHeader h2 {
+    font-size: 14px;
+  }
+
+  .App .FixedHeader button {
+    font-size: 10px;
+  }
 }
