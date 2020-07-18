@@ -44,8 +44,8 @@ class App extends Component {
     const albums = this.state.albums.map(album => {
       const { Artist, Album, Year, id, cover, checked } = album;
       return (
-        <Col lg="3" md="3" sm="4" xs="4" className="column">
-          <Card key={id} className="AlbumCard" onClick={() => this.onSelectAlbum(id)}>
+        <Col key={id} lg="3" md="3" sm="4" xs="4" className="column">
+          <Card className="AlbumCard" onClick={() => this.onSelectAlbum(id)}>
             {/* Get album art from backend */}
             <Card.Img variant="top" src={cover.length ? cover : NoArt} />
             <Card.Body>
