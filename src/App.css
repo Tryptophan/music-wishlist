@@ -87,17 +87,6 @@
   }
 }
 
-@media (max-width: 1050px) {
-  /* .App .AlbumCard img {
-    width: 100%;
-    height: 100%;
-  }
-
-  .App .AlbumCard .card-body {
-    width: 100%;
-  } */
-}
-
 @media (max-width: 780px) {
   .FixedHeader h2 {
     line-height: 24px;
