@@ -23,9 +23,10 @@
 
 .App .AlbumCard {
   display: inline-block;
-  overflow: hidden;
-  margin: 0 auto 40px auto;
+  margin: 0 auto 2vh auto;
   align-self: center;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 .App .AlbumCard input {
@@ -34,8 +35,10 @@
   right: 10px;
 }
 
-.App .AlbumCard .card-body {
-  height: 180px;
+.App .AlbumCard .card-title, .card-text {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .App .AlbumCard img {
@@ -46,7 +49,6 @@
 .App .AlbumCard .card-body {
   width: 350px;
   font-size: 1em;
-  word-wrap: break-word;
 }
 
 .App .AlbumCard button {
@@ -55,7 +57,11 @@
 }
 
 .App .card-title {
-  font-size: 1.2em;
+  font-size: 2vh;
+}
+
+.App .card-text {
+  font-size: 1.5vh;
 }
 
 @media (max-width: 1560px) {
@@ -76,37 +82,24 @@
     height: 200px;
   }
 
-  .App .card-title {
-    font-size: 18px;
-  }
-
   .App .AlbumCard .card-body {
     width: 200px;
-    height: 120px;
-    font-size: 14px;
   }
 }
 
 @media (max-width: 1050px) {
-  .App .AlbumCard img {
-    width: 150px;
-    height: 150px;
-  }
-
-  .App .card-title {
-    font-size: 12px;
+  /* .App .AlbumCard img {
+    width: 100%;
+    height: 100%;
   }
 
   .App .AlbumCard .card-body {
-    width: 150px;
-    height: 100px;
-    font-size: 12px;
-  }
+    width: 100%;
+  } */
 }
 
 @media (max-width: 780px) {
   .FixedHeader h2 {
-    font-size: 24px;
     line-height: 24px;
   }
 
@@ -115,24 +108,27 @@
   }
 
   .App .column {
-    padding-left: 5px;
-    padding-right: 5px;
+    padding-left: 1%;
+    padding-right: 1%;
+  }
+
+  .ImageWrapper {
+    object-fit: cover;
   }
 
   .App .AlbumCard img {
-    width: 110px;
-    height: 110px;
-  }
-
-  .App .card-title {
-    font-size: 8px;
+    width: 100%;
+    height: 100%;
+    object-position: 50% 50%;
   }
 
   .App .AlbumCard .card-body {
-    width: 110px;
-    height: 60px;
+    width: 100%;
     padding: 5px;
-    font-size: 6px;
+  }
+
+  .App .container-fluid {
+    margin-top: 70px;
   }
 
   .App .FixedHeader h2 {
